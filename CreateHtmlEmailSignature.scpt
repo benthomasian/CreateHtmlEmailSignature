@@ -29,8 +29,8 @@ end if
 
 set textOSVersion to system version of (system info)
 
-if ((textOSVersion does not start with "10.7") and (textOSVersion does not start with "10.8")) then
-	display dialog "You are using OS" & space & textOSVersion & ". This script is configured to run on 10.7 or 10.8 and will now quit." buttons {textButtonOkay} default button textButtonOkay cancel button textButtonOkay with title "Script Quitting"
+if ((textOSVersion does not start with "10.10") and (textOSVersion does not start with "10.11")) then
+	display dialog "You are using OS" & space & textOSVersion & ". This script is configured to run on 10.10 or 10.11 and will now quit." buttons {textButtonOkay} default button textButtonOkay cancel button textButtonOkay with title "Script Quitting"
 end if
 
 if (textOSVersion starts with "10.7") then
@@ -38,9 +38,6 @@ if (textOSVersion starts with "10.7") then
 else
 	set boolVersionLion to false
 end if
-
-
-my subCheckGuiScriptingEnabled()
 
 
 my subMailSignaturesPrefsOpen()
@@ -103,7 +100,7 @@ end repeat
 
 --
 -- Create or modify mail signature file: 
--- for 10.7, file is created; for 10.8, file is modified
+-- for 10.10, file is created; for 10.11, file is modified
 --
 if boolVersionLion is true then
 	set textMailSignatureFileNameExtension to "webarchive"
@@ -180,26 +177,6 @@ end subTestForInternetConnection
 
 
 --
--- Handler to enable GUI scripting
---
-on subCheckGuiScriptingEnabled()
-	tell application "System Events"
-		activate -- brings System Events authentication dialog to front
-		
-		if UI elements enabled is false then
-			set textButtonOkay to "Authenticate"
-			
-			display dialog "The script requires GUI scripting to be enabled." & return & "Please authenticate, or cancel script and contact your system administrator." buttons {textButtonCancel, textButtonOkay} default button textButtonOkay cancel button textButtonCancel with title "Enable GUI Scripting"
-			
-			set UI elements enabled to true
-			return UI elements enabled
-		end if
-	end tell
-end subCheckGuiScriptingEnabled
-
-
-
---
 -- Handler to open Signatures preferences
 --
 on subMailSignaturesPrefsOpen()
@@ -216,7 +193,7 @@ on subMailSignaturesPrefsOpen()
 			
 			-- add new signature
 			tell window 1
-				click button "Signatures" of tool bar 1
+				click button "Signatures" of toolbar 1
 				delay 2
 			end tell
 		end tell
